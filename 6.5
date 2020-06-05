@@ -1,0 +1,73 @@
+难度：简单
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
+
+示例 1：
+
+输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+输出：[1,2,3,6,9,8,7,4,5]
+示例 2：
+
+输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+class Solution {
+    public int[] spiralOrder(int[][] matrix) {
+          if(matrix.length==0){
+              int arr[]=new int[0];
+                return arr;
+            }
+            int count = 0;
+            int i = 0;
+            int j = 0;
+            int x=matrix.length;
+            int y=matrix[0].length;
+             int arr[]=new int[x*y];
+            int left=0;
+            int top=1;
+            while(count!=arr.length){
+                while(j<y){
+                    if(count==arr.length){
+                       break;
+                    }
+                    arr[count++]=matrix[i][j++];
+                
+                }
+                y--;
+                j--;
+                i++;
+                while(i<x){
+                    if(count==arr.length){
+                       break;
+                    }
+                    arr[count++]=matrix[i++][j];
+                }
+                 x--;
+                 i--;
+                 j--;
+                while(j>=left){
+                    if(count==arr.length){
+                       break;
+                    }
+                    arr[count++]=matrix[i][j--];
+                }
+                 left++;
+                 j++;
+                 i--;
+                while(i>=top){
+                    if(count==arr.length){
+                       break;
+                    }
+                    arr[count++]=matrix[i--][j];
+                     
+                }
+                top++;
+                i++;
+                j++;
+            }
+           return arr;
+        }
+    }
