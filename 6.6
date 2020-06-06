@@ -1,0 +1,93 @@
+给定一个未排序的整数数组，找出最长连续序列的长度。
+
+要求算法的时间复杂度为 O(n)。
+
+示例:
+
+输入: [100, 4, 200, 1, 3, 2]
+输出: 4
+解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
+
+执行用时 :
+230 ms
+, 在所有 Java 提交中击败了
+11.04%
+的用户
+内存消耗 :
+40.3 MB
+, 在所有 Java 提交中击败了
+8.33%
+的用户
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+
+        if(nums.length==1){
+            return 1 ;
+        }
+
+        
+        //临时
+        int temp=0;
+        //冒泡排序
+        for(int i=0;i<nums.length;i++){
+            for(int j = i+1;j<nums.length;j++){
+                if(nums[i]>nums[j]){
+                    temp=nums[i];
+                    nums[i]=nums[j];
+                    nums[j]=temp;
+                }
+            }
+        }
+        //索引
+        int init=0;
+        //最长连续长度
+        int max=1;
+        //计数
+        int count=1;
+        while(init<nums.length){
+            for(;init<nums.length-1;){
+                if((nums[init+1]-nums[init])==1||(nums[init+1]==nums[init])){
+                    if (nums[init]==nums[init+1]){
+                         init = searchIndex(nums, init);
+                         if ((init+1)==(nums.length)){
+                            break;
+                        }
+                        if ((nums[init+1]-nums[init])==1){
+                            init++;
+                            count++;
+                        }else {
+                            break;
+                        }
+                    }else {
+                        init++;
+                        count++;
+                    }
+                } else {
+                    break;
+                }
+            }
+            if (max<count){
+                max=count;
+            }
+            count=1;
+            ++init;
+        }
+        return max;
+
+    }
+    //在数组中元素重复时，寻找最后一个重复数字坐标
+    public int searchIndex(int nums[],int init){
+        for (;init<nums.length-1;){
+            if (nums[init]==nums[init+1]){
+                init++;
+            }else {
+                break;
+            }
+        }
+        return init;
+    }
+}
