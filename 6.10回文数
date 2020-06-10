@@ -1,0 +1,25 @@
+class Solution {
+    public boolean isPalindrome(int x) {
+        if(x<0){
+            return false;
+        }
+        StringBuilder sb=new StringBuilder(""+x);
+        String reverse = sb.reverse().toString();
+       if (reverse.length()==10){
+            String before = reverse.substring(0, 5);
+            String after=reverse.substring(5);
+            long a=Integer.parseInt(before);
+            long b=Integer.parseInt(after);
+            long c=a*100000+b;
+            if (c>Integer.MAX_VALUE){
+                return false;
+            };
+        }
+        int i = Integer.parseInt(reverse);
+        if(i == x){
+            return true;
+        }
+        return false;
+
+    }
+}
