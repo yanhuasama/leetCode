@@ -1,0 +1,146 @@
+//超时
+class Solution {
+     public List<List<Integer>> threeSum(int[] nums) {
+
+        List<List<Integer>> lists=new ArrayList<>();
+
+        if (nums.length<3){
+            return lists;
+        }
+
+        int temp=0;
+        for (int i=0;i<nums.length;i++){
+            for (int j=i;j<nums.length;j++){
+                if (nums[i]>nums[j]){
+                    temp=nums[i];
+                    nums[i]=nums[j];
+                    nums[j]=temp;
+                }
+            }
+        }
+
+        int index=2;
+       int sum;
+        while (true){
+            sum=nums[0]+nums[1]+nums[index++];
+            if (index==nums.length||sum>0){
+                break;
+            }
+        }
+        --index;
+
+        if (index == 1){
+            return lists;
+        }
+
+
+
+//        int[] newNum = Arrays.copyOf(nums, index + 1);
+        List<Integer> list=new ArrayList<>();
+        for (int i = 0; i <=index; i++) {
+            list.add(nums[i]);
+        }
+        int init=0;
+        int step=1;
+        int indexTemp=index;
+        int count=0;
+        System.out.println(index);
+        System.out.println(Arrays.toString(list.toArray()));
+        while (init<=(index-2)){
+            System.out.println(init);
+            System.out.println(init+step);
+            System.out.println(indexTemp);
+            System.out.println("=============");
+            sum=list.get(init)+list.get(init+step)+list.get(indexTemp);
+
+            if (sum>0){
+                indexTemp--;
+            }else if (sum<0){
+                step++;
+            }else{
+                List<Integer> integerList=new ArrayList<>();
+                integerList.add(list.get(init));
+                integerList.add(list.get(init+step));
+                integerList.add(list.get(indexTemp));
+                boolean flag=false;
+                for (List<Integer> integers : lists) {
+                    if (integers.contains(list.get(init))&&integers.contains(list.get(init+step))&&integers.contains(list.get(indexTemp))){
+                        flag=true;
+                    }
+                }
+                 if (list.get(init)==0&&list.get(init+step)==0&&list.get(indexTemp)==0){
+                    ++count;
+                }
+                if (!flag&&count!=1){
+                    lists.add(integerList);
+                }
+                  if (count==1){
+                    lists.add(integerList);
+                    count++;
+                }
+                 step++;
+                indexTemp--;
+            }
+
+            if ((init+step)==index||indexTemp<=(init+step)){
+                step=1;
+                ++init;
+                indexTemp=index;
+            }
+
+        }
+
+
+        return lists;
+
+
+    }
+}
+
+//官方
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        // 枚举 a
+        for (int first = 0; first < n; ++first) {
+            // 需要和上一次枚举的数不相同
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                continue;
+            }
+            // c 对应的指针初始指向数组的最右端
+            int third = n - 1;
+            int target = -nums[first];
+            // 枚举 b
+            for (int second = first + 1; second < n; ++second) {
+                // 需要和上一次枚举的数不相同
+                if (second > first + 1 && nums[second] == nums[second - 1]) {
+                    continue;
+                }
+                // 需要保证 b 的指针在 c 的指针的左侧
+                while (second < third && nums[second] + nums[third] > target) {
+                    --third;
+                }
+                // 如果指针重合，随着 b 后续的增加
+                // 就不会有满足 a+b+c=0 并且 b<c 的 c 了，可以退出循环
+                if (second == third) {
+                    break;
+                }
+                if (nums[second] + nums[third] == target) {
+                    List<Integer> list = new ArrayList<Integer>();
+                    list.add(nums[first]);
+                    list.add(nums[second]);
+                    list.add(nums[third]);
+                    ans.add(list);
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+作者：LeetCode-Solution
+链接：https://leetcode-cn.com/problems/3sum/solution/san-shu-zhi-he-by-leetcode-solution/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
